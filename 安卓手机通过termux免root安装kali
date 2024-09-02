@@ -1,0 +1,105 @@
+1、安装termux
+
+上github Releases · termux/termux-app · GitHub下载
+
+下载链接
+https://github.com/termux/termux-app/releases/download/v0.119.0-beta.1/termux-app_v0.119.0-beta.1+apt-android-7-github-debug_arm64-v8a.apk
+
+
+
+2、termux更改源 并更新
+
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+
+sed -i 's@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/game-packages-24 games stable@' $PREFIX/etc/apt/sources.list.d/game.list
+
+sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/science-packages-24 science stable@' $PREFIX/etc/apt/sources.list.d/science.list
+pkg update
+
+pkg upgrade
+
+
+
+3、安装必须组件
+
+授权 termux-setup-storage
+
+pkg install wget python python2 git curl openssl-tool proot -y
+
+ 开启免root  termux-chroot
+
+
+
+4、下载并安装kali nethunter
+
+方法一：git clone https://github.com/grp95/termux-install-linux.git
+
+              cd Nethunter-In-Termux
+
+              chmod +x kalinethunter
+
+              ./kalinethunter 或者bash kalinethunter
+
+正常流程是启动脚本后下载kali->解压->下载sh安装
+
+一般第一第二流程没有问题，下载sh时可能因为墙导致无法下载运行
+
+
+
+方法二:wget -O install-nethunter-termux https://offs.ec/2MceZWr
+
+            chmod +x install-nethunter-termux
+
+             ./install-nethunter-termux
+
+这种方法也是因为墙的原因导致第一步无法下载sh脚本
+
+解决方法：电脑端搭梯子 浏览器下载链接https://offs.ec/2MceZWr
+
+并重命名为nethunter或nethunter.sh
+
+连接手机将脚背拷到手机download目录
+
+进入termux 运行命令 cp storage/shared/download/nethunter  ~/
+
+然后 chmod +x nethunter
+
+        ./nethunter
+
+可能出现的问题:下载镜像后手机没有存储权限导致下载后无法解压并安装
+
+（中兴的MyOS会遇到这种情况）
+
+解决方法：直接电脑端下载https://images.kali.org/nethunter/kalifs-arm64-full.tar.xzhttps://images.kali.org/nethunter/kalifs-arm64-full.tar.xz
+
+ 拷到手机download目录 termux运行命令 cp storage/shared/download/kalifs-arm64-full.tar.xz ~/
+
+然后运行命令解压 tar-xJf  kalifs-arm64-full.tar.xz
+
+然后运行脚本 ./nethunter
+
+安装完成后运行命令 startkali或者 nh 进入kali 后面加 -r 是以root权限进入
+
+
+
+5、更新kali并开启vnc
+
+root权限进去kali startkali -r
+
+运行命令 apt update && apt upgrade && apt dist-upgrade
+
+中间报错 运行 apt --fix-broken install
+
+安装图形界面apt-get install xorg desktop-base xfce4 xfce4-places-plugin xfce4-goodies
+
+启动vnc vncserver
+
+设定密码
+
+手机安装vnc 启动vnc后新建连接 kali 非root用户 是localhost:5902 root用户 localhost:5901
+
+
+
+ 参考链接：
+
+https://www.kali.org/docs/nethunter/nethunter-rootless/
